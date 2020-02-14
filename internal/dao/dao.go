@@ -32,7 +32,7 @@ type dao struct {
 	redis       *redis.Redis
 	mc          *memcache.Memcache
 	cache *fanout.Fanout
-	demoExpire int32
+	FlowerExpire int32
 }
 
 // New new a dao and return.
@@ -42,7 +42,7 @@ func New(r *redis.Redis, mc *memcache.Memcache, db *sql.DB) (d Dao, cf func(), e
 
 func newDao(r *redis.Redis, mc *memcache.Memcache, db *sql.DB) (d *dao, cf func(), err error) {
 	var cfg struct{
-		DemoExpire xtime.Duration
+		FlowerExpire xtime.Duration
 	}
 	if err = paladin.Get("application.toml").UnmarshalTOML(&cfg); err != nil {
 		return
@@ -52,7 +52,7 @@ func newDao(r *redis.Redis, mc *memcache.Memcache, db *sql.DB) (d *dao, cf func(
 		redis: r,
 		mc: mc,
 		cache: fanout.New("cache"),
-		demoExpire: int32(time.Duration(cfg.DemoExpire) / time.Second),
+		FlowerExpire: int32(time.Duration(cfg.FlowerExpire) / time.Second),
 	}
 	cf = d.Close
 	return

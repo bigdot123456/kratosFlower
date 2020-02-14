@@ -6,7 +6,7 @@
   type _mc interface {
 		// mc: -key=keyArt -type=get
 		CacheArticle(c context.Context, id int64) (*model.Article, error)
-		// mc: -key=keyArt -expire=d.demoExpire
+		// mc: -key=keyArt -expire=d.FlowerExpire
 		AddCacheArticle(c context.Context, id int64, art *model.Article) (err error)
 		// mc: -key=keyArt
 		DeleteArticleCache(c context.Context, id int64) (err error)
@@ -49,7 +49,7 @@ func (d *dao) AddCacheArticle(c context.Context, id int64, val *model.Article) (
 		return
 	}
 	key := keyArt(id)
-	item := &memcache.Item{Key: key, Object: val, Expiration: d.demoExpire, Flags: memcache.FlagJSON}
+	item := &memcache.Item{Key: key, Object: val, Expiration: d.FlowerExpire, Flags: memcache.FlagJSON}
 	if err = d.mc.Set(c, item); err != nil {
 		log.Errorv(c, log.KV("AddCacheArticle", fmt.Sprintf("%+v", err)), log.KV("key", key))
 		return

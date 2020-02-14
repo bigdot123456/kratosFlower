@@ -12,7 +12,7 @@ find ./ -type f -name "*" |xargs -I {} grep "Demo" {}
 echo "find All file contain demo\n"
 find ./ -type f -name "*" |xargs -I {} grep "demo" {}
 
-#
+# find file name
 find .| xargs grep -ri "demo"
 find .| xargs grep -ri "demo" -l 
 
@@ -21,7 +21,9 @@ echo "Replace file with demo"
 grep -rl 'demo' ./  | xargs sed -i "" "s/demo/$1/g"
 echo "Replace file with Demo"
 grep -rl 'Demo' ./  | xargs sed -i "" "s/Demo/Svr$1/g"
-
+echo "in windows, if error! please execute the following cmd"
+echo "grep -rl 'demo' ./  | xargs sed -i \"s/demo/Svr$1/g\" "
+echo "grep -rl 'Demo' ./  | xargs sed -i \"s/Demo/Svr$1/g\" "
 exit -2
 
 #grep -rl 'aaaModule' ./  | xargs sed -i "" "s/aaaModule/bbbName/g"

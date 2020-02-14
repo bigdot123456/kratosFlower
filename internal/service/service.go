@@ -12,7 +12,7 @@ import (
 	"github.com/google/wire"
 )
 
-var Provider = wire.NewSet(New, wire.Bind(new(pb.DemoServer), new(*Service)))
+var Provider = wire.NewSet(New, wire.Bind(new(pb.FlowerServer), new(*Service)))
 
 // Service service.
 type Service struct {
@@ -31,14 +31,14 @@ func New(d dao.Dao) (s *Service, cf func(), err error) {
 	return
 }
 
-// SayHello grpc demo func.
+// SayHello grpc Flower func.
 func (s *Service) SayHello(ctx context.Context, req *pb.HelloReq) (reply *empty.Empty, err error) {
 	reply = new(empty.Empty)
 	fmt.Printf("hello %s", req.Name)
 	return
 }
 
-// SayHelloURL bm demo func.
+// SayHelloURL bm Flower func.
 func (s *Service) SayHelloURL(ctx context.Context, req *pb.HelloReq) (reply *pb.HelloResp, err error) {
 	reply = &pb.HelloResp{
 		Content: "hello " + req.Name,
