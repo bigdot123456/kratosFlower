@@ -28,6 +28,9 @@ var _ binding.StructValidator
 var PathSvrflowerSvrPing = "/SvrflowerSvr.service.v1.SvrflowerSvr/Ping"
 var PathSvrflowerSvrSayHello = "/SvrflowerSvr.service.v1.SvrflowerSvr/SayHello"
 var PathSvrflowerSvrSayHelloURL = "/kratos-SvrflowerSvr/say_hello"
+var PathSvrflowerSvrCreate = "/SvrflowerSvr.service.v1.SvrflowerSvr/Create"
+var PathSvrflowerSvrDelete = "/SvrflowerSvr.service.v1.SvrflowerSvr/Delete"
+var PathSvrflowerSvrGet = "/live-room/get"
 
 // SvrflowerSvrBMServer is the server API for SvrflowerSvr service.
 type SvrflowerSvrBMServer interface {
@@ -36,6 +39,12 @@ type SvrflowerSvrBMServer interface {
 	SayHello(ctx context.Context, req *HelloReq) (resp *google_protobuf1.Empty, err error)
 
 	SayHelloURL(ctx context.Context, req *HelloReq) (resp *HelloResp, err error)
+
+	Create(ctx context.Context, req *Req) (resp *Resp, err error)
+
+	Delete(ctx context.Context, req *Req) (resp *Resp, err error)
+
+	Get(ctx context.Context, req *Req) (resp *Resp, err error)
 }
 
 var SvrflowerSvrSvc SvrflowerSvrBMServer
@@ -67,10 +76,40 @@ func svrflowerSvrSayHelloURL(c *bm.Context) {
 	c.JSON(resp, err)
 }
 
+func svrflowerSvrCreate(c *bm.Context) {
+	p := new(Req)
+	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
+		return
+	}
+	resp, err := SvrflowerSvrSvc.Create(c, p)
+	c.JSON(resp, err)
+}
+
+func svrflowerSvrDelete(c *bm.Context) {
+	p := new(Req)
+	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
+		return
+	}
+	resp, err := SvrflowerSvrSvc.Delete(c, p)
+	c.JSON(resp, err)
+}
+
+func svrflowerSvrGet(c *bm.Context) {
+	p := new(Req)
+	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
+		return
+	}
+	resp, err := SvrflowerSvrSvc.Get(c, p)
+	c.JSON(resp, err)
+}
+
 // RegisterSvrflowerSvrBMServer Register the blademaster route
 func RegisterSvrflowerSvrBMServer(e *bm.Engine, server SvrflowerSvrBMServer) {
 	SvrflowerSvrSvc = server
 	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/Ping", svrflowerSvrPing)
 	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/SayHello", svrflowerSvrSayHello)
 	e.GET("/kratos-SvrflowerSvr/say_hello", svrflowerSvrSayHelloURL)
+	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/Create", svrflowerSvrCreate)
+	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/Delete", svrflowerSvrDelete)
+	e.GET("/live-room/get", svrflowerSvrGet)
 }

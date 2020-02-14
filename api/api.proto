@@ -23,6 +23,13 @@ service SvrflowerSvr {
       get: "/kratos-SvrflowerSvr/say_hello"
     };
   };
+    rpc Create (Req) returns (Resp);
+  	rpc Delete (Req) returns (Resp);
+  	rpc Get(Req) returns (Resp) {
+          option (google.api.http) = {
+              get:"/live-room/get"
+          };
+      };
 }
 
 message HelloReq {
@@ -31,4 +38,13 @@ message HelloReq {
 
 message HelloResp {
   string Content = 1 [(gogoproto.jsontag) = 'content'];
+}
+
+
+message Req {
+	string name = 1 [(gogoproto.moretags)='form:"name" validate:"required"'];
+}
+
+message Resp {
+    string Content = 1 [(gogoproto.jsontag) = 'content'];
 }
