@@ -14,7 +14,7 @@ import (
 type _mc interface {
 	// mc: -key=keyArt -type=get
 	CacheArticle(c context.Context, id int64) (*model.Article, error)
-	// mc: -key=keyArt -expire=d.FlowerExpire
+	// mc: -key=keyArt -expire=d.SvrflowerSvrExpire
 	AddCacheArticle(c context.Context, id int64, art *model.Article) (err error)
 	// mc: -key=keyArt
 	DeleteArticleCache(c context.Context, id int64) (err error)

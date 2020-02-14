@@ -1,5 +1,5 @@
-create database kratos_Flower;
-use kratos_Flower;
+create database kratos_SvrflowerSvr;
+use kratos_SvrflowerSvr;
 
 CREATE TABLE `articles` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',

@@ -1,5 +1,5 @@
 [Client]
-	name = "Flower"
+	name = "SvrflowerSvr"
 	proto = "tcp"
 	addr = "127.0.0.1:16379"
 	idle = 10

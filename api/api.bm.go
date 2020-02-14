@@ -25,12 +25,12 @@ var _ *bm.Context
 var _ context.Context
 var _ binding.StructValidator
 
-var PathFlowerPing = "/Flower.service.v1.Flower/Ping"
-var PathFlowerSayHello = "/Flower.service.v1.Flower/SayHello"
-var PathFlowerSayHelloURL = "/kratos-Flower/say_hello"
+var PathSvrflowerSvrPing = "/SvrflowerSvr.service.v1.SvrflowerSvr/Ping"
+var PathSvrflowerSvrSayHello = "/SvrflowerSvr.service.v1.SvrflowerSvr/SayHello"
+var PathSvrflowerSvrSayHelloURL = "/kratos-SvrflowerSvr/say_hello"
 
-// FlowerBMServer is the server API for Flower service.
-type FlowerBMServer interface {
+// SvrflowerSvrBMServer is the server API for SvrflowerSvr service.
+type SvrflowerSvrBMServer interface {
 	Ping(ctx context.Context, req *google_protobuf1.Empty) (resp *google_protobuf1.Empty, err error)
 
 	SayHello(ctx context.Context, req *HelloReq) (resp *google_protobuf1.Empty, err error)
@@ -38,39 +38,39 @@ type FlowerBMServer interface {
 	SayHelloURL(ctx context.Context, req *HelloReq) (resp *HelloResp, err error)
 }
 
-var FlowerSvc FlowerBMServer
+var SvrflowerSvrSvc SvrflowerSvrBMServer
 
-func flowerPing(c *bm.Context) {
+func svrflowerSvrPing(c *bm.Context) {
 	p := new(google_protobuf1.Empty)
 	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
 		return
 	}
-	resp, err := FlowerSvc.Ping(c, p)
+	resp, err := SvrflowerSvrSvc.Ping(c, p)
 	c.JSON(resp, err)
 }
 
-func flowerSayHello(c *bm.Context) {
+func svrflowerSvrSayHello(c *bm.Context) {
 	p := new(HelloReq)
 	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
 		return
 	}
-	resp, err := FlowerSvc.SayHello(c, p)
+	resp, err := SvrflowerSvrSvc.SayHello(c, p)
 	c.JSON(resp, err)
 }
 
-func flowerSayHelloURL(c *bm.Context) {
+func svrflowerSvrSayHelloURL(c *bm.Context) {
 	p := new(HelloReq)
 	if err := c.BindWith(p, binding.Default(c.Request.Method, c.Request.Header.Get("Content-Type"))); err != nil {
 		return
 	}
-	resp, err := FlowerSvc.SayHelloURL(c, p)
+	resp, err := SvrflowerSvrSvc.SayHelloURL(c, p)
 	c.JSON(resp, err)
 }
 
-// RegisterFlowerBMServer Register the blademaster route
-func RegisterFlowerBMServer(e *bm.Engine, server FlowerBMServer) {
-	FlowerSvc = server
-	e.GET("/Flower.service.v1.Flower/Ping", flowerPing)
-	e.GET("/Flower.service.v1.Flower/SayHello", flowerSayHello)
-	e.GET("/kratos-Flower/say_hello", flowerSayHelloURL)
+// RegisterSvrflowerSvrBMServer Register the blademaster route
+func RegisterSvrflowerSvrBMServer(e *bm.Engine, server SvrflowerSvrBMServer) {
+	SvrflowerSvrSvc = server
+	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/Ping", svrflowerSvrPing)
+	e.GET("/SvrflowerSvr.service.v1.SvrflowerSvr/SayHello", svrflowerSvrSayHello)
+	e.GET("/kratos-SvrflowerSvr/say_hello", svrflowerSvrSayHelloURL)
 }
